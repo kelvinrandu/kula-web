@@ -24,9 +24,7 @@ const firebase = getApps().length === 0
   : getApp();
 
 const auth = getAuth(firebase);
-onAuthStateChanged(auth, (user) => {
-  // Check for user status
-});
+
   
-export { auth, signInWithEmailAndPassword };
+export { auth, signInWithEmailAndPassword, onAuthStateChanged };
 export default firebase;
