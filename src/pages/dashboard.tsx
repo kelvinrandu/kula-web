@@ -243,7 +243,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                      Router.push("/");
                     })
                     .catch((error) => {
-                      // An error happened.
+                     console.log(error)
                     })
                 }
               >
