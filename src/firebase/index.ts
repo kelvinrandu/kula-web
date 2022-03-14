@@ -5,6 +5,8 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+// import "firebase/firestore";
 
 
 
@@ -19,12 +21,15 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
+
+
 const firebase = getApps().length === 0
   ? initializeApp(firebaseConfig)
   : getApp();
 
 const auth = getAuth(firebase);
+ const Firestore = getFirestore();
 
   
-export { auth, signInWithEmailAndPassword, onAuthStateChanged };
+export { auth,Firestore, signInWithEmailAndPassword, onAuthStateChanged };
 export default firebase;

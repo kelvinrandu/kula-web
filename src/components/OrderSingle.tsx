@@ -19,11 +19,14 @@ export type ItemProps = {
     description: string;
   };
 };
+// interface Props {
+//   item?: ItemProps;
+//   myItem?: Boolean;
+// }
 interface Props {
-  item?: ItemProps;
-  myItem?: Boolean;
+  orders?: any;
+  // myItem?: Boolean;
 }
-
 const badgeColors = {
   food: "teal",
   drinks: "red",
