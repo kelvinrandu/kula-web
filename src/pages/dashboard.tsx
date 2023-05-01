@@ -15,6 +15,7 @@ import {
 } from "@firebase/firestore";
 import { Firestore} from "../firebase/index";
 
+
 import App from "../components/App";
 
 interface Props {}
@@ -30,22 +31,29 @@ const Dashboard: React.FC<Props> = () => {
         }, 2000);
       }, []);
 
-      const ordersCollection = collection(Firestore, "orders");
+    
 
       const getOrders = async () => {
-        const ordersQuery = query(
-          ordersCollection,
-          where("user", "==", "admin2@gmail.com"),
-          limit(10)
-        );
-        const querySnapshot = await getDocs(ordersQuery);
-        const result: QueryDocumentSnapshot<DocumentData>[] = [];
-        // querySnapshot.forEach((snapshot) => {
-          querySnapshot.forEach((doc) => {
-          result.push(doc);
+  
+   const ordersCollection = collection(Firestore, "orders");
+        // const citiesRef = Firescollection("cities");
+        // const snapshot = await citiesRef.get();
+        // snapshot.forEach((doc) => {
+        //   console.log(doc.id, "=>", doc.data());
+        // });
+        // const ordersQuery = query(
+        //   ordersCollection,
+        //   where("user", "==", "admin2@gmail.com"),
+        //   limit(10)
+        // );
+        // const querySnapshot = await getDocs(ordersQuery);
+        // const result: QueryDocumentSnapshot<DocumentData>[] = [];
+        // // querySnapshot.forEach((snapshot) => {
+        //   querySnapshot.forEach((doc) => {
+        //   result.push(doc);
 
-          setOrders(result);
-        });
+        //   setOrders(result);
+        // });
         // setOrders(result);
       };
       console.log(orders)

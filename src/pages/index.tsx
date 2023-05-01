@@ -22,7 +22,7 @@ const Home: NextPage = () => {
           <Login />
         </Center>
       ) : (
-                <Flex pt={24} align="center" justify="center">
+        <Flex pt={24} align="center" justify="center">
           <Spinner size="xl" label="Loading outbox" />
         </Flex>
        
