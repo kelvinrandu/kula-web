@@ -3,8 +3,9 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { Mpesa } from "mpesa-api";
 
 type Data = {
-  name: string
-}
+  name: string;
+  callback: string;
+};
 
 export default function handler(
   req: NextApiRequest,
@@ -14,7 +15,7 @@ export default function handler(
       // Process a POST request
       const callbackData = req.body;
       console.log('callback -->',callbackData)
-       res.status(200).json({ name: "John Doe" });
+       res.status(200).json({ callback: callbackData , name: "John Doe" });
 
     } else {
       // Handle any other HTTP method
