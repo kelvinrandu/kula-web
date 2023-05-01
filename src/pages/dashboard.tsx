@@ -66,7 +66,7 @@ const Dashboard: React.FC<Props> = () => {
         <b>{"Orders"}</b>
       </Text>
       {orders.length ? (
-        orders.map((order) => <OrderSingle />)
+        orders.map((order,key) => <OrderSingle key={key} />)
       ) : (
         <Text>no items</Text>
       )}

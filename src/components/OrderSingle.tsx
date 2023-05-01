@@ -25,6 +25,7 @@ export type ItemProps = {
 // }
 interface Props {
   orders?: any;
+  index?: any;
   // myItem?: Boolean;
 }
 const badgeColors = {
@@ -35,7 +36,7 @@ const badgeColors = {
   electronics: "yellow",
 };
 
-const ItemSingle: React.FC<Props> = () => {
+const ItemSingle: React.FC<Props> = ({index}) => {
   const [itemDetail, setItemDetail] = useState(false);
 
   function ItemDetailHandler() {
@@ -43,6 +44,7 @@ const ItemSingle: React.FC<Props> = () => {
   }
   return (
     <Box
+    inde={index}
       _hover={{
         transform: "translateY(-3px)",
         boxShadow: "dark-lg",
