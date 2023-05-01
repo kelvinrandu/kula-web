@@ -22,24 +22,7 @@ export default function handler(
   const environment = "sandbox";
   const mpesa = new Mpesa(credentials, environment);
  
-mpesa
-  .c2bSimulate({
-    ShortCode: 123456,
-    Amount: 1000 /* 1000 is an example amount */,
-    Msisdn: 254711651196,
-    CommandID: "Command ID" /* OPTIONAL */,
-    // BillRefNumber: "Bill Reference Number" /* OPTIONAL */,
-  })
-  .then((response) => {
-    //Do something with the response
-    //eg
-    console.log('error',response);
-  })
-  .catch((error) => {
-    //Do something with the error;
-    //eg
-    console.error('error',error);
-  });
+
 
   res.status(200).json({ name: 'John Doe' })
 }
