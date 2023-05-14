@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Collapse, Badge } from "@chakra-ui/react";
 import { Box, Heading, Text, Flex, Spacer } from "@chakra-ui/layout";
 import { TriangleDownIcon, TriangleUpIcon, AtSignIcon } from "@chakra-ui/icons";
-// import ItemDetail from "../components/ItemDetail";
+import ItemDetail from "../components/ItemDetail";
 // import EditItem from "../components/EditItem";
 
 export type ItemProps = {
@@ -76,9 +76,18 @@ const ItemSingle: React.FC<Props> = ({index,order}) => {
           float="right"
           onClick={() => ItemDetailHandler()}
         >
-          <TriangleDownIcon color="teal" boxSize={6} />
+          {itemDetail ? (
+            <TriangleUpIcon color="red" boxSize={6} />
+          ) : (
+            <TriangleDownIcon color="teal" boxSize={6} />
+          )}
         </Box>
       </Flex>
+      {/* {itemDetail && (
+        <Collapse in={itemDetail} animateOpacity style={{ zIndex: 10 }}>
+          <ItemDetail item={item} ItemDetailHandler={ItemDetailHandler} />
+        </Collapse>
+      )} */}
     </Box>
   );
 };
