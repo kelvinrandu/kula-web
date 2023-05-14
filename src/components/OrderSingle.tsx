@@ -24,7 +24,7 @@ export type ItemProps = {
 //   myItem?: Boolean;
 // }
 interface Props {
-  orders?: any;
+  order?: any;
   index?: any;
   // myItem?: Boolean;
 }
@@ -36,7 +36,7 @@ const badgeColors = {
   electronics: "yellow",
 };
 
-const ItemSingle: React.FC<Props> = ({index}) => {
+const ItemSingle: React.FC<Props> = ({index,order}) => {
   const [itemDetail, setItemDetail] = useState(false);
 
   function ItemDetailHandler() {
@@ -44,7 +44,7 @@ const ItemSingle: React.FC<Props> = ({index}) => {
   }
   return (
     <Box
-    inde={index}
+      inde={index}
       _hover={{
         transform: "translateY(-3px)",
         boxShadow: "dark-lg",
@@ -58,33 +58,27 @@ const ItemSingle: React.FC<Props> = ({index}) => {
     >
       <Flex justify="center" align="center" wrap="wrap" grow={1}>
         <Heading fontSize="md" mr={4}>
-          number
+          {order?.phone}
         </Heading>
         {/* <Spacer /> */}
         <AtSignIcon color="teal" />
-        <Text> Ksh 100 </Text>
+        <Text> {order?.total} </Text>
 
         <Spacer />
 
+        <Badge mr={5} colorScheme="red">
+          {order?.restaurantName}
+        </Badge>
 
-            <Badge mr={5} colorScheme='red'>
-              category
-            </Badge>
-
-            <Box
-              as="button"
-              alignSelf="right"
-              float="right"
-              onClick={() => ItemDetailHandler()}
-            >
-      
-                <TriangleDownIcon color="teal" boxSize={6} />
-         
-            </Box>
-        
-        
+        <Box
+          as="button"
+          alignSelf="right"
+          float="right"
+          onClick={() => ItemDetailHandler()}
+        >
+          <TriangleDownIcon color="teal" boxSize={6} />
+        </Box>
       </Flex>
-
     </Box>
   );
 };

@@ -11,7 +11,7 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import { FiHome } from "react-icons/fi";
-import { FaPaperPlane, FaDolly, FaEnvelope } from "react-icons/fa";
+import { FaPaperPlane, FaDolly, FaEnvelope, FaWarehouse } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { ReactText } from "react";
 import { IconType } from "react-icons";
@@ -30,9 +30,9 @@ interface LinkItemProps {
 }
 const LinkItems: Array<LinkItemProps> = [
   { name: "Dashboard", path: "/dashboard", icon: FiHome },
-  { name: "Inbox", path: "/myOrders", icon: FaEnvelope },
-  { name: "Outbox", path: "/orders", icon: FaPaperPlane },
-  { name: "My Items", path: "/items", icon: FaDolly },
+  { name: "Orders", path: "/myOrders", icon: FaEnvelope },
+  { name: "Restaurants", path: "/orders", icon: FaWarehouse },
+  { name: "Transactions", path: "/items", icon: FaDolly },
 ];
 
 interface SidebarProps extends BoxProps {
@@ -59,7 +59,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         justifyContent="space-between"
       >
         <Text fontSize="xl" fontFamily="monospace" fontWeight="bold">
-          supplier~retail
+          Meko
         </Text>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>

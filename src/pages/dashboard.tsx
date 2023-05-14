@@ -20,9 +20,7 @@ import App from "../components/App";
 
 interface Props {}
 const Dashboard: React.FC<Props> = () => {
-    const [orders, setOrders] = useState<QueryDocumentSnapshot<DocumentData>[]>(
-      []
-    );
+    const [orders, setOrders] = useState([])
      const [loading, setLoading] = useState<boolean>(true);
       useEffect(() => {
         getOrders();
@@ -36,25 +34,18 @@ const Dashboard: React.FC<Props> = () => {
       const getOrders = async () => {
   
    const ordersCollection = collection(Firestore, "orders");
-        // const citiesRef = Firescollection("cities");
-        // const snapshot = await citiesRef.get();
-        // snapshot.forEach((doc) => {
-        //   console.log(doc.id, "=>", doc.data());
-        // });
-        // const ordersQuery = query(
-        //   ordersCollection,
-        //   where("user", "==", "admin2@gmail.com"),
-        //   limit(10)
-        // );
-        // const querySnapshot = await getDocs(ordersQuery);
-        // const result: QueryDocumentSnapshot<DocumentData>[] = [];
-        // // querySnapshot.forEach((snapshot) => {
-        //   querySnapshot.forEach((doc) => {
-        //   result.push(doc);
-
-        //   setOrders(result);
-        // });
-        // setOrders(result);
+   const _orders:any = []
+   const docsSnap = await getDocs(ordersCollection);
+       docsSnap.forEach((doc) => {
+         //  setCompany({ ...docSnap.data() });
+         // setRests({ ...doc.data()});
+          _orders.push(doc?.data());
+        //  setOrders(doc?.data());
+        //  console.log('doc',doc.data())
+       });
+       console.log("orders", _orders);
+       setOrders(_orders);
+    
       };
       console.log(orders)
 
@@ -66,7 +57,7 @@ const Dashboard: React.FC<Props> = () => {
         <b>{"Orders"}</b>
       </Text>
       {orders.length ? (
-        orders.map((order,key) => <OrderSingle key={key} />)
+        orders.map((order, key) => <OrderSingle order={order} key={key} />)
       ) : (
         <Text>no items</Text>
       )}
