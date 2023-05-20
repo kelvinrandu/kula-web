@@ -83,11 +83,12 @@ const ItemSingle: React.FC<Props> = ({index,order}) => {
           )}
         </Box>
       </Flex>
-      {/* {itemDetail && (
+      {itemDetail && (
         <Collapse in={itemDetail} animateOpacity style={{ zIndex: 10 }}>
-          <ItemDetail item={item} ItemDetailHandler={ItemDetailHandler} />
+          here
+          <ItemDetail  ItemDetailHandler={ItemDetailHandler} />
         </Collapse>
-      )} */}
+      )}
     </Box>
   );
 };
