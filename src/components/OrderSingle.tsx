@@ -62,12 +62,17 @@ const ItemSingle: React.FC<Props> = ({index,order}) => {
         </Heading>
         {/* <Spacer /> */}
         <AtSignIcon color="teal" />
-        <Text> {order?.total} </Text>
+        <Text> {order?.total} Ksh </Text>
+        <Heading fontSize="md" ml={4} mr={4}>
+          {order?.restaurantName}
+        </Heading>
+        <Text> {order?.referenceNumber} </Text>
 
         <Spacer />
 
         <Badge mr={5} colorScheme="red">
-          {order?.restaurantName}
+          {" "}
+          Pending
         </Badge>
 
         <Box
@@ -85,8 +90,8 @@ const ItemSingle: React.FC<Props> = ({index,order}) => {
       </Flex>
       {itemDetail && (
         <Collapse in={itemDetail} animateOpacity style={{ zIndex: 10 }}>
-          here
-          <ItemDetail  ItemDetailHandler={ItemDetailHandler} />
+        
+          <ItemDetail order={order} ItemDetailHandler={ItemDetailHandler} />
         </Collapse>
       )}
     </Box>

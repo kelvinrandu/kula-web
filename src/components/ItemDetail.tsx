@@ -21,7 +21,7 @@ import { InputRightElement, InputGroup } from "@chakra-ui/react";
 
 
 type Iprops = {
-  // item: ItemProps;
+  order:any;
   ItemDetailHandler: () => void;
 };
 const ItemDetail: React.FC<Iprops> = (props) => {
@@ -59,12 +59,19 @@ const ItemDetail: React.FC<Iprops> = (props) => {
           </Text>
           <Text fontSize="20px" letterSpacing={3}>
             {" "}
-           phone
+           {props.order.phone}
           </Text>
         </Box>
 
         <Box fontWeight="700" fontSize="15px">
-          <EmailIcon color="teal" mr="5px" boxSize={4} /> user
+          {/* <EmailIcon color="teal" mr="5px" boxSize={4} />  */}
+          {props.order.items.map((order:any)=>{
+            return (
+              <>
+             {order.item.title} @ {order.item.price}{" "}* 1
+              </>
+            );
+          })}
         </Box>
         {/* {item?.userByUser?.name !== user?.email && (
           <InputGroup>

@@ -63,7 +63,7 @@ const Dashboard: React.FC<Props> = () => {
       )}
 
       <Flex justify="flex-end" as="i" color="gray.500">
-        {`Showing 2 out of all items `}
+        {`Showing ${orders.length} out of ${orders.length} items `}
       </Flex>
     </App>
   );
