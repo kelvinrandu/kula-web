@@ -7,9 +7,11 @@ import {
   Box,
   Button,
   Icon,
+  
 } from "@chakra-ui/react";
-// import { ItemProps } from "../components/ItemSingle";
-import { GrDeliver } from "react-icons/gr";
+// import { ItemProps } from "../components/ItemSingle";BiRestaurant
+import { GrHomeRounded } from "react-icons/gr";
+import { BiRestaurant } from "react-icons/bi";
 import { useForm } from "react-hook-form";
 import { FcShop } from "react-icons/fc";
 import { InputRightElement, InputGroup } from "@chakra-ui/react";
@@ -54,21 +56,21 @@ const ItemDetail: React.FC<Iprops> = (props) => {
             {/* get data from user.role */}
             <Text>
               {" "}
-              <Icon as={GrDeliver} boxSize={4} backgroundColor="teal" />
+              <Icon as={GrHomeRounded} boxSize={4} backgroundColor="teal" />
             </Text>
           </Text>
           <Text fontSize="20px" letterSpacing={3}>
             {" "}
-           {props.order.phone}
+            {props?.order?.restaurantName}
           </Text>
         </Box>
 
         <Box fontWeight="700" fontSize="15px">
           {/* <EmailIcon color="teal" mr="5px" boxSize={4} />  */}
-          {props.order.items.map((order:any)=>{
+          {props.order.items.map((order: any) => {
             return (
               <>
-             {order.item.title} @ {order.item.price}{" "}* 1
+                {order?.item?.title} @ {order?.item?.price} * 1
               </>
             );
           })}
