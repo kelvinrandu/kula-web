@@ -37,11 +37,7 @@ const Dashboard: React.FC<Props> = () => {
    const _orders:any = []
    const docsSnap = await getDocs(ordersCollection);
        docsSnap.forEach((doc) => {
-         //  setCompany({ ...docSnap.data() });
-         // setRests({ ...doc.data()});
           _orders.push(doc?.data());
-        //  setOrders(doc?.data());
-        //  console.log('doc',doc.data())
        });
        console.log("orders", _orders);
        setOrders(_orders);
