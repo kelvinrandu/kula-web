@@ -13,38 +13,32 @@ import {
   updateDoc,
   where,
 } from "@firebase/firestore";
-import { Firestore} from "../firebase/index";
-
+import { Firestore } from "../firebase/index";
 
 import App from "../components/App";
 
 interface Props {}
 const Dashboard: React.FC<Props> = () => {
-    const [orders, setOrders] = useState([])
-     const [loading, setLoading] = useState<boolean>(true);
-      useEffect(() => {
-        getOrders();
-        setTimeout(() => {
-          setLoading(false);
-        }, 2000);
-      }, []);
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  useEffect(() => {
+    getOrders();
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
 
-    
-
-      const getOrders = async () => {
-  
-   const ordersCollection = collection(Firestore, "orders");
-   const _orders:any = []
-   const docsSnap = await getDocs(ordersCollection);
-       docsSnap.forEach((doc) => {
-          _orders.push(doc?.data());
-       });
-       console.log("orders", _orders);
-       setOrders(_orders);
-    
-      };
-      console.log(orders)
-
+  const getOrders = async () => {
+    const ordersCollection = collection(Firestore, "orders");
+    const _orders: any = [];
+    const docsSnap = await getDocs(ordersCollection);
+    docsSnap.forEach((doc) => {
+      _orders.push(doc?.data());
+    });
+    console.log("orders", _orders);
+    setOrders(_orders);
+  };
+  console.log(orders);
 
   return (
     <App>

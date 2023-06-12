@@ -25,7 +25,6 @@ const Home: NextPage = () => {
         <Flex pt={24} align="center" justify="center">
           <Spinner size="xl" label="Loading outbox" />
         </Flex>
-       
       )}
     </>
   );

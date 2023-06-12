@@ -18,20 +18,24 @@ import {
   Flex,
   useToast,
 } from "@chakra-ui/react";
+import { doc, setDoc, collection } from "firebase/firestore";
+import { Firestore } from "../firebase/index";
 
+interface RestaurantData {
+  name: string;
+  categories: string[];
+  image_url: string;
+}
 interface Props {}
 const AddItemModal: React.FC<Props> = () => {
-
   const initialRef = useRef();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { handleSubmit, register } = useForm();
+
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [amount, setAmount] = useState("");
   const [category_id, setCategoryId] = useState(null);
   const toast = useToast();
-
-
 
   const flushInputs = () => {
     setName("");
@@ -47,6 +51,21 @@ const AddItemModal: React.FC<Props> = () => {
 
     onOpen();
   };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RestaurantData>();
+  const onSubmit = async (data: RestaurantData) => {
+    const timestamp: string = Date.now().toString();
+    const restaurantCollections = doc(Firestore, "restaurants", timestamp);
+
+    const docsSnap = await setDoc(restaurantCollections, {
+      name: data?.name,
+      category: data.categories,
+      image_url: data.image_url,
+    });
+  };
 
   return (
     <>
@@ -57,7 +76,6 @@ const AddItemModal: React.FC<Props> = () => {
           colorScheme="teal"
           align="center"
           minH="40px"
-        //   w="60%"
         >
           Add Restaurant
         </Button>
@@ -66,20 +84,7 @@ const AddItemModal: React.FC<Props> = () => {
       <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <form
-            // onSubmit={handleSubmit((data) =>
-            //   onCreateItem(
-            //     {
-            //       name,
-            //       price: data.price,
-            //       amount: data.amount,
-            //       category_id: data.category_id,
-            //       user_id: data.amount,
-            //     },
-            //     onClose
-            //   )
-            // )}
-          >
+          <form onSubmit={handleSubmit(onSubmit)}>
             <ModalHeader>Add Restaurant</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
@@ -88,9 +93,8 @@ const AddItemModal: React.FC<Props> = () => {
                 <Input
                   autoFocus
                   placeholder="Name"
-                  onChange={(e) => setName(e.target.value)}
+                  {...register("name")}
                   variant="filled"
-                  value={name}
                   type="text"
                 />
               </FormControl>
@@ -99,12 +103,9 @@ const AddItemModal: React.FC<Props> = () => {
                 <Input
                   autoFocus
                   variant="filled"
-               
-                  placeholder="price"
-                  value={price}
-                //   onChange={(e) => setPrice(parseInt(e.target.value))}
-                  {...register("price", { required: true })}
-                  type="number"
+                  {...register("categories")}
+                  placeholder="categories"
+                  type="text"
                 />
               </FormControl>
 
@@ -112,11 +113,9 @@ const AddItemModal: React.FC<Props> = () => {
                 <FormLabel>Picture</FormLabel>
                 <Input
                   variant="filled"
-                  value={amount}
-                //   onChange={(e) => setAmount(parseInt(e.target.value))}
-                  {...register("amount", { required: true })}
+                  {...register("image_url")}
                   placeholder="Amount"
-                  type="number"
+                  type="text"
                 />
               </FormControl>
 

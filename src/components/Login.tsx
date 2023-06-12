@@ -5,7 +5,7 @@ import { Button } from "@chakra-ui/button";
 import {
   FormControl,
   FormLabel,
-  FormErrorMessage
+  FormErrorMessage,
 } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
 import { auth, signInWithEmailAndPassword } from "../firebase/index";
@@ -20,18 +20,18 @@ const Login: React.FC = () => {
     formState: { errors },
   } = useForm<LoginData>();
   const onSubmit = (data: LoginData) => {
- signInWithEmailAndPassword(auth, data.email, data.password)
-   .then((userCredential) => {
-     // Signed in
-     const user = userCredential.user;
-     console.log(user)
-     // ...
-   })
-   .catch((error) => {
-     const errorCode = error.code;
-     const errorMessage = error.message;
-     console.log(error)
-   });
+    signInWithEmailAndPassword(auth, data.email, data.password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(error);
+      });
   };
   return (
     <Center height="100vh">
