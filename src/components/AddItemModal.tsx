@@ -132,7 +132,7 @@ const AddItemModal: React.FC<Props> = () => {
 
                         const docsSnap = await setDoc(restaurantCollections, {
                           name: data?.name,
-                          category: category,
+                          category: selectedOptions,
                           image_url: downloadURL,
                         });
                       }
