@@ -7,6 +7,10 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import {
+  getStorage,
+
+} from "firebase/storage";
 // import "firebase/firestore";
 
 
@@ -30,11 +34,13 @@ const firebase = getApps().length === 0
 
 const auth = getAuth(firebase);
  const Firestore = getFirestore();
+ const storage = getStorage();
 
   
 export {
   auth,
   Firestore,
+  storage,
   signOut,signInWithEmailAndPassword,
   onAuthStateChanged,
 };

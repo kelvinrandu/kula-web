@@ -19,9 +19,21 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { doc, setDoc, collection } from "firebase/firestore";
-import { Firestore } from "../firebase/index";
+import {
+  ref,
+  // getStorage,
+  uploadBytesResumable,
+  getDownloadURL,
+  uploadString,
+  uploadBytes,
+} from "@firebase/storage";
+import { Firestore, storage } from "../firebase/index";
 import Creatable from "react-select/creatable";
-const options = [
+type OptionType = {
+  value: string;
+  label: string;
+};
+const options: OptionType[] = [
   { value: "african", label: "African" },
   { value: "vegan", label: "Vegan" },
   { value: "italian", label: "Italian" },
@@ -38,9 +50,12 @@ const AddItemModal: React.FC<Props> = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [name, setName] = useState("");
+   const [category, setCategory] = useState<OptionType>();
   const [price, setPrice] = useState("");
   const [amount, setAmount] = useState("");
+    const [imageAsFile, setImageAsFile] = useState<Uint8Array| undefined>();
   const [category_id, setCategoryId] = useState(null);
+    const [selectedOptions, setSelectedOptions] = useState();
   const toast = useToast();
 
   const flushInputs = () => {
@@ -48,7 +63,15 @@ const AddItemModal: React.FC<Props> = () => {
     setPrice("");
     setAmount("");
   };
-
+  function handleSelect(data:any) {
+    setSelectedOptions(data);
+    
+    console.log('data->',data)
+  }
+    const handleImageAsFile = (e:any) => {
+      const image = e.target.files[0];
+      setImageAsFile((imageFile) => image);
+    };
   const onOpenDealModal = () => {
     // if (!user?.sub) {
     //   //return toast
@@ -63,14 +86,62 @@ const AddItemModal: React.FC<Props> = () => {
     formState: { errors },
   } = useForm<RestaurantData>();
   const onSubmit = async (data: RestaurantData) => {
-    const timestamp: string = Date.now().toString();
-    const restaurantCollections = doc(Firestore, "restaurants", timestamp);
+    console.log("categories", setCategory);
+    if(imageAsFile){
+                const mountainsRef = ref(storage, "mountains.jpg");
 
-    const docsSnap = await setDoc(restaurantCollections, {
-      name: data?.name,
-      category: data.categories,
-      image_url: data.image_url,
-    });
+                // Create a reference to 'images/mountains.jpg'
+                const mountainImagesRef = ref(storage, "images/mountains.jpg");
+
+                // While the file names are the same, the references point to different files
+                mountainsRef.name === mountainImagesRef.name; // true
+                mountainsRef.fullPath === mountainImagesRef.fullPath;
+                const uploadTask = uploadBytesResumable(
+                  mountainImagesRef,
+                  imageAsFile
+                );
+                uploadTask.on(
+                  "state_changed",
+                  (snapshot) => {
+                    // Observe state change events such as progress, pause, and resume
+                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                    const progress =
+                      (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log("Upload is " + progress + "% done");
+                    switch (snapshot.state) {
+                      case "paused":
+                        console.log("Upload is paused");
+                        break;
+                      case "running":
+                        console.log("Upload is running");
+                        break;
+                    }
+                  },
+                  (error) => {
+                    // Handle unsuccessful uploads
+                  },
+                  () => {
+                    // Handle successful uploads on complete
+                    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                    getDownloadURL(uploadTask.snapshot.ref).then(
+                      async (downloadURL) => {
+                        console.log("File available at", downloadURL);
+
+                        const timestamp: string = Date.now().toString();
+                        const restaurantCollections = doc(Firestore, "restaurants", timestamp);
+
+                        const docsSnap = await setDoc(restaurantCollections, {
+                          name: data?.name,
+                          category: category,
+                          image_url: downloadURL,
+                        });
+                      }
+                    );
+                  }
+                );
+
+    }
+
   };
 
   return (
@@ -113,15 +184,19 @@ const AddItemModal: React.FC<Props> = () => {
                   placeholder="categories"
                   type="text"
                 /> */}
-                <Creatable isMulti={true} options={options} />
+                <Creatable
+                  value={selectedOptions}
+                  onChange={handleSelect}
+                  isMulti={true}
+                  options={options}
+                />
               </FormControl>
 
               <FormControl isRequired mt={6}>
                 <FormLabel>Picture</FormLabel>
                 <Input
                   variant="filled"
-                  {...register("image_url")}
-                  placeholder="Amount"
+                  onChange={handleImageAsFile}
                   type="file"
                 />
               </FormControl>
