@@ -20,7 +20,13 @@ import {
 } from "@chakra-ui/react";
 import { doc, setDoc, collection } from "firebase/firestore";
 import { Firestore } from "../firebase/index";
-
+import Creatable from "react-select/creatable";
+const options = [
+  { value: "african", label: "African" },
+  { value: "vegan", label: "Vegan" },
+  { value: "italian", label: "Italian" },
+  { value: "junk", label: "Junk" },
+];
 interface RestaurantData {
   name: string;
   categories: string[];
@@ -100,13 +106,14 @@ const AddItemModal: React.FC<Props> = () => {
               </FormControl>
               <FormControl isRequired mt={6}>
                 <FormLabel>Categories</FormLabel>
-                <Input
+                {/* <Input
                   autoFocus
                   variant="filled"
                   {...register("categories")}
                   placeholder="categories"
                   type="text"
-                />
+                /> */}
+                <Creatable isMulti={true} options={options} />
               </FormControl>
 
               <FormControl isRequired mt={6}>
@@ -115,7 +122,7 @@ const AddItemModal: React.FC<Props> = () => {
                   variant="filled"
                   {...register("image_url")}
                   placeholder="Amount"
-                  type="text"
+                  type="file"
                 />
               </FormControl>
 
