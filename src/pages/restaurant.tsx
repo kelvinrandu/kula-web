@@ -14,7 +14,7 @@ import {
   where,
 } from "@firebase/firestore";
 import { Firestore } from "../firebase/index";
-import OrderSingle from "../components/OrderSingle";
+import RestaurantSingle from "../components/RestaurantSingle";
 
 export default function restaurant() {
   const [orders, setOrders] = useState([]);
@@ -43,7 +43,7 @@ export default function restaurant() {
         <b>{"Restaurants"}</b>
       </Text>
       {orders.length ? (
-        orders.map((order, key) => <OrderSingle order={order} key={key} />)
+        orders.map((order, key) => <RestaurantSingle order={order} key={key} />)
       ) : (
         <Text>no items</Text>
       )}
