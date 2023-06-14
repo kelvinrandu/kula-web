@@ -120,13 +120,17 @@ const Form2 = () => {
   return (
     <>
       <Heading w="100%" textAlign={"center"} fontWeight="normal" mb="2%">
-         Contacts
+        Contacts
       </Heading>
       <FormControl mr="5%">
         <FormLabel htmlFor="first-name" fontWeight={"normal"}>
           Restaurant email
         </FormLabel>
-        <Input id="first-name"  type="email" placeholder="restaurant@gmail.com" />
+        <Input
+          id="first-name"
+          type="email"
+          placeholder="restaurant@gmail.com"
+        />
       </FormControl>
 
       <FormControl>
@@ -151,14 +155,20 @@ const Form2 = () => {
             rounded="md"
           />
         </InputGroup>
-    
       </FormControl>
 
       <FormControl mt="2%">
         <FormLabel htmlFor="email" fontWeight={"normal"}>
           Location
         </FormLabel>
-        <Input id="email" type="email" />
+        <Input id="email" type="text"  placeholder="Diani Beach Road"/>
+        {/* <FormHelperText>We'll never share your email.</FormHelperText> */}
+      </FormControl>
+      <FormControl mt="2%">
+        <FormLabel htmlFor="email" fontWeight={"normal"}>
+          Ratings
+        </FormLabel>
+        <Input id="ratings" type="text" placeholder="5 star"/>
         {/* <FormHelperText>We'll never share your email.</FormHelperText> */}
       </FormControl>
     </>
