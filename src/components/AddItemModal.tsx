@@ -29,6 +29,7 @@ import {
   FormHelperText,
   InputRightElement,
 } from "@chakra-ui/react";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import { doc, setDoc, collection } from "firebase/firestore";
 import {
   ref,
@@ -48,8 +49,9 @@ const options: OptionType[] = [
   { value: "african", label: "African" },
   { value: "vegan", label: "Vegan" },
   { value: "italian", label: "Italian" },
-  { value: "junk", label: "Junk" },
+  { value: "junk", label: "Fast Food" },
 ];
+const options2: OptionType[] = [{ value: "100% vegan", label: "100% vegan" }];
 interface RestaurantData {
   name: string;
   categories: string[];
@@ -59,6 +61,7 @@ interface Props {}
 const Form1 = () => {
   const [show, setShow] = React.useState(false);
   const [selectedOptions, setSelectedOptions] = useState();
+  const [selectedOptions2, setSelectedOptions2] = useState();
   const [imageAsFile, setImageAsFile] = useState<Uint8Array | undefined>();
   const handleClick = () => setShow(!show);
   const handleImageAsFile = (e: any) => {
@@ -69,6 +72,9 @@ const Form1 = () => {
   function handleSelect(data: any) {
     setSelectedOptions(data);
   }
+    function handleSelect2(data: any) {
+      setSelectedOptions2(data);
+    }
   return (
     <>
       <Heading w="100%" textAlign={"center"} fontWeight="normal" mb="2%">
@@ -99,10 +105,10 @@ const Form1 = () => {
           Tags
         </FormLabel>
         <Creatable
-          value={selectedOptions}
-          onChange={handleSelect}
+          value={selectedOptions2}
+          onChange={handleSelect2}
           isMulti={true}
-          options={options}
+          options={options2}
         />
         {/* <FormHelperText>We'll never share your location.</FormHelperText> */}
       </FormControl>
@@ -263,7 +269,7 @@ const Form3 = () => {
             }}
           />
           <FormHelperText>
-            Brief description for your profile. URLs are hyperlinked.
+            Brief description for your hotel
           </FormHelperText>
         </FormControl>
       </SimpleGrid>
@@ -475,15 +481,15 @@ const AddItemModal: React.FC<Props> = () => {
                       variant="solid"
                       onClick={() => {
                         toast({
-                          title: "Account created.",
-                          description: "We've created your account for you.",
+                          title: "Restaurant  draft created.",
+                          description: "We've created a draft for you ",
                           status: "success",
                           duration: 3000,
                           isClosable: true,
                         });
                       }}
                     >
-                      Submit
+                      Save
                     </Button>
                   ) : null}
                 </Flex>

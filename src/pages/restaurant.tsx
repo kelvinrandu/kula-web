@@ -16,7 +16,8 @@ import {
 import { Firestore } from "../firebase/index";
 import RestaurantSingle from "../components/RestaurantSingle";
 
-export default function restaurant() {
+interface Props {}
+const Restaurant: React.FC<Props> = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
@@ -25,17 +26,17 @@ export default function restaurant() {
       setLoading(false);
     }, 2000);
   }, []);
-    const getOrders = async () => {
-      const ordersCollection = collection(Firestore, "restaurants");
-      const _orders: any = [];
-      const docsSnap = await getDocs(ordersCollection);
-      docsSnap.forEach((doc) => {
-        _orders.push(doc?.data());
-      });
-      console.log("orders", _orders);
-      setOrders(_orders);
-    };
-    console.log(orders);
+  const getOrders = async () => {
+    const ordersCollection = collection(Firestore, "restaurants");
+    const _orders: any = [];
+    const docsSnap = await getDocs(ordersCollection);
+    docsSnap.forEach((doc) => {
+      _orders.push(doc?.data());
+    });
+    console.log("orders", _orders);
+    setOrders(_orders);
+  };
+  console.log(orders);
   return (
     <App>
       <Text mb={2} fontSize="sm">
@@ -52,4 +53,5 @@ export default function restaurant() {
       </Flex>
     </App>
   );
-}
+};
+export default Restaurant;
