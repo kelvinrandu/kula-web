@@ -95,7 +95,7 @@ const ItemSingle: React.FC<Props> = ({ index, order }) => {
         </Heading>
         {/* <Spacer /> */}
         <AtSignIcon color="teal" />
-        <Text> {order?.location} Diani Beach Road </Text>
+        <Text> {order?.data?.location ?order?.data?.location :'Diani Beach Road'}  </Text>
         <Heading fontSize="md" ml={4} mr={4}>
           {order?.data?.phone}
         </Heading>
