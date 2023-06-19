@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Collapse, Badge,Button } from "@chakra-ui/react";
+import { Collapse, Badge, Button, useToast } from "@chakra-ui/react";
 import { Box, Heading, Text, Flex, Spacer } from "@chakra-ui/layout";
 import { TriangleDownIcon, TriangleUpIcon, AtSignIcon } from "@chakra-ui/icons";
 import ItemDetail from "../components/ItemDetail";
-// import EditItem from "../components/EditItem";
+import EditItemModal from "../components/EditItemModal";
+import { Firestore, storage } from "../firebase/index";
+import { doc, setDoc, collection, updateDoc } from "firebase/firestore";
 
 export type ItemProps = {
   id: number;
@@ -36,11 +38,42 @@ const badgeColors = {
   electronics: "yellow",
 };
 
-const ItemSingle: React.FC<Props> = ({index,order}) => {
+const ItemSingle: React.FC<Props> = ({ index, order }) => {
   const [itemDetail, setItemDetail] = useState(false);
+  const toast = useToast();
 
   function ItemDetailHandler() {
     setItemDetail(!itemDetail);
+  }
+  async function ActivateRestaurant(order: any) {
+    console.log("res", order);
+    const restaurantCollections = doc(Firestore, "restaurants", order.id);
+
+    const docsSnap = await updateDoc(restaurantCollections, {
+      active: true,
+    });
+    toast({
+      title: "Restaurant  activated succesfully.",
+      description: "We've activated your restaurant ",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
+  }
+  async function DeactivateRestaurant(order: any) {
+    console.log("res", order);
+    const restaurantCollections = doc(Firestore, "restaurants", order.id);
+
+    const docsSnap = await updateDoc(restaurantCollections, {
+      active: false,
+    });
+    toast({
+      title: "Restaurant deactivated successfully.",
+      description: "We've deactivated the restaurant for you ",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
   }
   return (
     <Box
@@ -58,22 +91,28 @@ const ItemSingle: React.FC<Props> = ({index,order}) => {
     >
       <Flex justify="center" align="center" wrap="wrap" grow={1}>
         <Heading fontSize="md" mr={4}>
-          {order?.name}
+          {order?.data?.name}
         </Heading>
         {/* <Spacer /> */}
         <AtSignIcon color="teal" />
-        <Text> {order?.location} {" "}Diani Beach Road </Text>
+        <Text> {order?.location} Diani Beach Road </Text>
         <Heading fontSize="md" ml={4} mr={4}>
-          {order?.phone}
+          {order?.data?.phone}
         </Heading>
         <Text> {order?.referenceNumber} </Text>
 
         <Spacer />
-
-        <Badge mr={5} colorScheme="red">
-          {" "}
-          Pending
-        </Badge>
+        {order?.data?.active ? (
+          <Badge mr={5} colorScheme="teal">
+            {" "}
+            Active
+          </Badge>
+        ) : (
+          <Badge mr={5} colorScheme="red">
+            {" "}
+            Pending
+          </Badge>
+        )}
 
         <Box
           as="button"
@@ -92,23 +131,29 @@ const ItemSingle: React.FC<Props> = ({index,order}) => {
         <Collapse in={itemDetail} animateOpacity style={{ zIndex: 10 }}>
           <Box py={10} p={2}>
             <Box fontWeight="700" d="flex" align="center" justify="center">
-              <Button
+              {order?.data.active ? (
+                <Button
+                  onClick={() => DeactivateRestaurant(order)}
+                  colorScheme="red"
+                  variant="solid"
+                  w="7rem"
+                  mr="5%"
+                >
+                  Deactivate
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => ActivateRestaurant(order)}
+                  colorScheme="teal"
+                  variant="solid"
+                  w="7rem"
+                  mr="5%"
+                >
+                  Activate
+                </Button>
+              )}
 
-                colorScheme="teal"
-                variant="solid"
-                w="7rem"
-                mr="5%"
-              >
-                Activate
-              </Button>
-              <Button
-                w="7rem"
-
-                colorScheme="teal"
-                variant="outline"
-              >
-                Edit
-              </Button>
+              <EditItemModal />
             </Box>
 
             {/* {item?.userByUser?.name !== user?.email && (

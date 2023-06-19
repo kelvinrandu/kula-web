@@ -29,9 +29,15 @@ const Restaurant: React.FC<Props> = () => {
   const getOrders = async () => {
     const ordersCollection = collection(Firestore, "restaurants");
     const _orders: any = [];
+    const _ord: any = [];
     const docsSnap = await getDocs(ordersCollection);
     docsSnap.forEach((doc) => {
-      _orders.push(doc?.data());
+      console.log('doc',doc.id)
+
+      let dat={data:doc.data(),id:doc.id}
+      // _ord.push(doc?.data());
+      // _ord.concat({id:doc.id})
+      _orders.push(dat);
     });
     console.log("orders", _orders);
     setOrders(_orders);

@@ -302,7 +302,7 @@ const Form3 = ({ setInstagram, setWebsite, setAbout }: any) => {
     </>
   );
 };
-const AddItemModal: React.FC<Props> = () => {
+const EditItemModal: React.FC<Props> = () => {
   const initialRef = useRef();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [show, setShow] = React.useState(false);
@@ -448,15 +448,15 @@ const AddItemModal: React.FC<Props> = () => {
 
   return (
     <>
-      <Flex p={6}>
+      <Flex>
+
         <Button
-          onClick={onOpenDealModal}
-          variant="solid"
+          w="7rem"
           colorScheme="teal"
-          align="center"
-          minH="40px"
+          onClick={onOpenDealModal}
+          variant="outline"
         >
-          Add Restaurant
+          Edit
         </Button>
       </Flex>
 
@@ -464,7 +464,7 @@ const AddItemModal: React.FC<Props> = () => {
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <ModalHeader>Add Restaurant</ModalHeader>
+            <ModalHeader>Edit Restaurant</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <Box
@@ -549,7 +549,6 @@ const AddItemModal: React.FC<Props> = () => {
                       colorScheme="blue"
                       variant="solid"
                       type="submit"
-    
                     >
                       Save
                     </Button>
@@ -564,4 +563,4 @@ const AddItemModal: React.FC<Props> = () => {
   );
 };
 
-export default AddItemModal;
+export default EditItemModal;
