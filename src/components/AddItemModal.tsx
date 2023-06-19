@@ -47,9 +47,10 @@ type OptionType = {
 };
 const options: OptionType[] = [
   { value: "african", label: "African" },
-  { value: "vegan", label: "Vegan" },
+  { value: "asian", label: "Asian" },
   { value: "italian", label: "Italian" },
-  { value: "junk", label: "Fast Food" },
+  { value: "american", label: "American" },
+  { value: "european", label: "European" },
 ];
 const options2: OptionType[] = [{ value: "100% vegan", label: "100% vegan" }];
 interface RestaurantData {
@@ -58,34 +59,46 @@ interface RestaurantData {
   image_url: string;
 }
 interface Props {}
-const Form1 = () => {
-  const [show, setShow] = React.useState(false);
-  const [selectedOptions, setSelectedOptions] = useState();
-  const [selectedOptions2, setSelectedOptions2] = useState();
-  const [imageAsFile, setImageAsFile] = useState<Uint8Array | undefined>();
-  const handleClick = () => setShow(!show);
-  const handleImageAsFile = (e: any) => {
-    const image = e.target.files[0];
-    setImageAsFile((imageFile) => image);
-  };
+const Form1 = ({
+  setName,
+  setSelectedOptions,
+  selectedOptions2,
+  handleSelect2,
+  handleImageAsFile,
+  selectedOptions,
+  handleSelect,
+}: any) => {
+  // const [show, setShow] = React.useState(false);
+  // const [selectedOptions, setSelectedOptions] = useState();
+  // const [selectedOptions2, setSelectedOptions2] = useState();
+  // const [imageAsFile, setImageAsFile] = useState<Uint8Array | undefined>();
+  // const handleClick = () => setShow(!show);
+  // const handleImageAsFile = (e: any) => {
+  //   const image = e.target.files[0];
+  //   setImageAsFile((imageFile) => image);
+  // };
 
-  function handleSelect(data: any) {
-    setSelectedOptions(data);
-  }
-    function handleSelect2(data: any) {
-      setSelectedOptions2(data);
-    }
+  // function handleSelect(data: any) {
+  //   setSelectedOptions(data);
+  // }
+  //   function handleSelect2(data: any) {
+  //     setSelectedOptions2(data);
+  //   }
   return (
     <>
       <Heading w="100%" textAlign={"center"} fontWeight="normal" mb="2%">
-         Details
+        Details
       </Heading>
 
       <FormControl mr="5%">
         <FormLabel htmlFor="first-name" fontWeight={"normal"}>
           Restaurant name
         </FormLabel>
-        <Input id="first-name" placeholder="Restaurant name" />
+        <Input
+          id="first-name"
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Restaurant name"
+        />
       </FormControl>
 
       <FormControl>
@@ -122,7 +135,7 @@ const Form1 = () => {
     </>
   );
 };
-const Form2 = () => {
+const Form2 = ({ setEmail, setPhone, setLocation, setRating }: any) => {
   return (
     <>
       <Heading w="100%" textAlign={"center"} fontWeight="normal" mb="2%">
@@ -134,6 +147,7 @@ const Form2 = () => {
         </FormLabel>
         <Input
           id="first-name"
+          onChange={(e) => setEmail(e.target.value)}
           type="email"
           placeholder="restaurant@gmail.com"
         />
@@ -156,6 +170,7 @@ const Form2 = () => {
           </InputLeftAddon>
           <Input
             type="tel"
+            onChange={(e) => setPhone(e.target.value)}
             placeholder="711651196"
             focusBorderColor="brand.400"
             rounded="md"
@@ -167,20 +182,30 @@ const Form2 = () => {
         <FormLabel htmlFor="email" fontWeight={"normal"}>
           Location
         </FormLabel>
-        <Input id="email" type="text"  placeholder="Diani Beach Road"/>
+        <Input
+          id="email"
+          onChange={(e) => setLocation(e.target.value)}
+          type="text"
+          placeholder="Diani Beach Road"
+        />
         {/* <FormHelperText>We'll never share your email.</FormHelperText> */}
       </FormControl>
       <FormControl mt="2%">
         <FormLabel htmlFor="email" fontWeight={"normal"}>
           Ratings
         </FormLabel>
-        <Input id="ratings" type="text" placeholder="5 star"/>
+        <Input
+          id="ratings"
+          type="text"
+          onChange={(e) => setRating(e.target.value)}
+          placeholder="5 star"
+        />
         {/* <FormHelperText>We'll never share your email.</FormHelperText> */}
       </FormControl>
     </>
   );
 };
-const Form3 = () => {
+const Form3 = ({ setInstagram, setWebsite, setAbout }: any) => {
   return (
     <>
       <Heading w="100%" textAlign={"center"} fontWeight="normal">
@@ -211,6 +236,7 @@ const Form3 = () => {
             </InputLeftAddon>
             <Input
               type="tel"
+              onChange={(e) => setWebsite(e.target.value)}
               placeholder="www.example.com"
               focusBorderColor="brand.400"
               rounded="md"
@@ -237,11 +263,12 @@ const Form3 = () => {
               color="gray.500"
               rounded="md"
             >
-            @
+              @
             </InputLeftAddon>
             <Input
               type="tel"
               placeholder="instagram username"
+              onChange={(e) => setInstagram(e.target.value)}
               focusBorderColor="brand.400"
               rounded="md"
             />
@@ -263,14 +290,13 @@ const Form3 = () => {
             placeholder="you@example.com"
             rows={3}
             shadow="sm"
+            onChange={(e) => setAbout(e.target.value)}
             focusBorderColor="brand.400"
             fontSize={{
               sm: "sm",
             }}
           />
-          <FormHelperText>
-            Brief description for your hotel
-          </FormHelperText>
+          <FormHelperText>Brief description for your hotel</FormHelperText>
         </FormControl>
       </SimpleGrid>
     </>
@@ -285,12 +311,20 @@ const AddItemModal: React.FC<Props> = () => {
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(33.33);
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [location, setLocation] = useState("");
+  const [rating, setRating] = useState("");
+  const [website, setWebsite] = useState("");
+  const [instagram, setInstagram] = useState("");
+  const [about, setAbout] = useState("");
   const [category, setCategory] = useState<OptionType>();
   const [price, setPrice] = useState("");
   const [amount, setAmount] = useState("");
   const [imageAsFile, setImageAsFile] = useState<Uint8Array | undefined>();
   const [category_id, setCategoryId] = useState(null);
   const [selectedOptions, setSelectedOptions] = useState();
+  const [selectedOptions2, setSelectedOptions2] = useState();
 
   const flushInputs = () => {
     setName("");
@@ -299,8 +333,9 @@ const AddItemModal: React.FC<Props> = () => {
   };
   function handleSelect(data: any) {
     setSelectedOptions(data);
-
-    console.log("data->", data);
+  }
+  function handleSelect2(data: any) {
+    setSelectedOptions2(data);
   }
   const handleImageAsFile = (e: any) => {
     const image = e.target.files[0];
@@ -359,13 +394,54 @@ const AddItemModal: React.FC<Props> = () => {
             );
 
             const docsSnap = await setDoc(restaurantCollections, {
-              name: data?.name,
+              name: name,
+              email: email ? email : "N/A",
+              phone: phone ? phone : "N/A",
+              location: location ? location : "N/A",
+              rating: rating ? rating : "N/A",
+              instagram: instagram ? instagram : "N/A",
+              about: about ? about : "N/A",
+              website: website ? website : "N/A",
               category: selectedOptions,
+              tags: selectedOptions2,
               image_url: downloadURL,
+              active:false,
             });
+              toast({
+                title: "Restaurant  draft created.",
+                description: "We've created a draft for you ",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+              });
           });
         }
       );
+    } else {
+      const timestamp: string = Date.now().toString();
+      const restaurantCollections = doc(Firestore, "restaurants", timestamp);
+
+      const docsSnap = await setDoc(restaurantCollections, {
+        name: name,
+        email: email ? email : "N/A",
+        phone: phone ? phone : "N/A",
+        location: location ? location : "N/A",
+        rating: rating ? rating : "N/A",
+        instagram: instagram ? instagram : "N/A",
+        about: about ? about : "N/A",
+        website: website ? website : "N/A",
+        category: selectedOptions,
+        tags: selectedOptions2,
+        image_url: "N/a",
+        active:false
+      });
+        toast({
+          title: "Restaurant  draft created.",
+          description: "We've created a draft for you ",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
     }
   };
 
@@ -390,36 +466,6 @@ const AddItemModal: React.FC<Props> = () => {
             <ModalHeader>Add Restaurant</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              {/* <FormControl isRequired>
-                <FormLabel>name</FormLabel>
-                <Input
-                  autoFocus
-                  placeholder="Name"
-                  {...register("name")}
-                  variant="filled"
-                  type="text"
-                />
-              </FormControl>
-              <FormControl isRequired mt={6}>
-                <FormLabel>Categories</FormLabel>
-     
-                <Creatable
-                  value={selectedOptions}
-                  onChange={handleSelect}
-                  isMulti={true}
-                  options={options}
-                />
-              </FormControl>
-
-              <FormControl isRequired mt={6}>
-                <FormLabel>Picture</FormLabel>
-                <Input
-                  variant="filled"
-                  onChange={handleImageAsFile}
-                  type="file"
-                />
-                
-              </FormControl> */}
               <Box
                 // borderWidth="1px"
                 rounded="lg"
@@ -436,7 +482,29 @@ const AddItemModal: React.FC<Props> = () => {
                   mx="5%"
                   isAnimated
                 ></Progress>
-                {step === 1 ? <Form1 /> : step === 2 ? <Form2 /> : <Form3 />}
+                {step === 1 ? (
+                  <Form1
+                    setSelectedOptions={setSelectedOptions}
+                    handleSelect={handleSelect}
+                    handleSelect2={handleSelect2}
+                    setSelectedOptions2={setSelectedOptions2}
+                    handleImageAsFile={handleImageAsFile}
+                    setName={setName}
+                  />
+                ) : step === 2 ? (
+                  <Form2
+                    setEmail={setEmail}
+                    setPhone={setPhone}
+                    setLocation={setLocation}
+                    setRating={setRating}
+                  />
+                ) : (
+                  <Form3
+                    setWebsite={setWebsite}
+                    setInstagram={setInstagram}
+                    setAbout={setAbout}
+                  />
+                )}
               </Box>
             </ModalBody>
 
@@ -477,36 +545,24 @@ const AddItemModal: React.FC<Props> = () => {
                   {step === 3 ? (
                     <Button
                       w="7rem"
-                      colorScheme="red"
+                      colorScheme="blue"
                       variant="solid"
-                      onClick={() => {
-                        toast({
-                          title: "Restaurant  draft created.",
-                          description: "We've created a draft for you ",
-                          status: "success",
-                          duration: 3000,
-                          isClosable: true,
-                        });
-                      }}
+                      type="submit"
+                      // onClick={() => {
+                      //   toast({
+                      //     title: "Restaurant  draft created.",
+                      //     description: "We've created a draft for you ",
+                      //     status: "success",
+                      //     duration: 3000,
+                      //     isClosable: true,
+                      //   });
+                      // }}
                     >
                       Save
                     </Button>
                   ) : null}
                 </Flex>
               </ButtonGroup>
-              {/* <Button mr={3} onClick={onClose}>
-                Close
-              </Button>
-              <Button
-                // isLoading={loading}
-                type="submit"
-                variantColor="teal"
-                variant="solid"
-                colorScheme="teal"
-                ml={3}
-              >
-                Create
-              </Button> */}
             </ModalFooter>
           </form>
         </ModalContent>
