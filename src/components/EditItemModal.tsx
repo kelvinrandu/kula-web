@@ -30,7 +30,7 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
-import { doc, setDoc, collection } from "firebase/firestore";
+import { doc, setDoc, collection, updateDoc } from "firebase/firestore";
 import {
   ref,
   // getStorage,
@@ -399,10 +399,10 @@ const EditItemModal: React.FC<Props> = ({order}) => {
             const restaurantCollections = doc(
               Firestore,
               "restaurants",
-              timestamp
+              order?.id
             );
 
-            const docsSnap = await setDoc(restaurantCollections, {
+            const docsSnap = await updateDoc(restaurantCollections, {
               name: name,
               email: email ? email : "N/A",
               phone: phone ? phone : "N/A",
@@ -414,7 +414,7 @@ const EditItemModal: React.FC<Props> = ({order}) => {
               category: selectedOptions,
               tags: selectedOptions2,
               image_url: downloadURL,
-              active:false,
+              active: false,
             });
               toast({
                 title: "Restaurant  draft created.",
@@ -428,9 +428,9 @@ const EditItemModal: React.FC<Props> = ({order}) => {
       );
     } else {
       const timestamp: string = Date.now().toString();
-      const restaurantCollections = doc(Firestore, "restaurants", timestamp);
+      const restaurantCollections = doc(Firestore, "restaurants", order?.id);
 
-      const docsSnap = await setDoc(restaurantCollections, {
+      const docsSnap = await updateDoc(restaurantCollections, {
         name: name,
         email: email ? email : "N/A",
         phone: phone ? phone : "N/A",
@@ -442,7 +442,7 @@ const EditItemModal: React.FC<Props> = ({order}) => {
         category: selectedOptions,
         tags: selectedOptions2,
         image_url: "N/a",
-        active:false
+        active: false,
       });
        onClose();
         toast({
