@@ -153,7 +153,7 @@ const ItemSingle: React.FC<Props> = ({ index, order }) => {
                 </Button>
               )}
 
-              <EditItemModal />
+              <EditItemModal  order={order}/>
             </Box>
 
             {/* {item?.userByUser?.name !== user?.email && (

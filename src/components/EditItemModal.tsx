@@ -58,9 +58,13 @@ interface RestaurantData {
   categories: string[];
   image_url: string;
 }
-interface Props {}
+interface Props {
+  order:any
+}
 const Form1 = ({
   setName,
+  name,
+  category,
   setSelectedOptions,
   selectedOptions2,
   handleSelect2,
@@ -84,6 +88,7 @@ const Form1 = ({
   //   function handleSelect2(data: any) {
   //     setSelectedOptions2(data);
   //   }
+  console.log('options',selectedOptions);
   return (
     <>
       <Heading w="100%" textAlign={"center"} fontWeight="normal" mb="2%">
@@ -96,6 +101,7 @@ const Form1 = ({
         </FormLabel>
         <Input
           id="first-name"
+          value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Restaurant name"
         />
@@ -106,7 +112,7 @@ const Form1 = ({
           Category
         </FormLabel>
         <Creatable
-          value={selectedOptions}
+          value={category}
           onChange={handleSelect}
           isMulti={true}
           options={options}
@@ -205,7 +211,7 @@ const Form2 = ({ setEmail, setPhone, setLocation, setRating }: any) => {
     </>
   );
 };
-const Form3 = ({ setInstagram, setWebsite, setAbout }: any) => {
+const Form3 = ({ setInstagram, setWebsite, setAbout,about,instagram,website }: any) => {
   return (
     <>
       <Heading w="100%" textAlign={"center"} fontWeight="normal">
@@ -236,6 +242,7 @@ const Form3 = ({ setInstagram, setWebsite, setAbout }: any) => {
             </InputLeftAddon>
             <Input
               type="tel"
+              value={website}
               onChange={(e) => setWebsite(e.target.value)}
               placeholder="www.example.com"
               focusBorderColor="brand.400"
@@ -268,6 +275,7 @@ const Form3 = ({ setInstagram, setWebsite, setAbout }: any) => {
             <Input
               type="tel"
               placeholder="instagram username"
+              value={instagram}
               onChange={(e) => setInstagram(e.target.value)}
               focusBorderColor="brand.400"
               rounded="md"
@@ -290,6 +298,7 @@ const Form3 = ({ setInstagram, setWebsite, setAbout }: any) => {
             placeholder="you@example.com"
             rows={3}
             shadow="sm"
+            value={about}
             onChange={(e) => setAbout(e.target.value)}
             focusBorderColor="brand.400"
             fontSize={{
@@ -302,7 +311,7 @@ const Form3 = ({ setInstagram, setWebsite, setAbout }: any) => {
     </>
   );
 };
-const EditItemModal: React.FC<Props> = () => {
+const EditItemModal: React.FC<Props> = ({order}) => {
   const initialRef = useRef();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [show, setShow] = React.useState(false);
@@ -310,8 +319,8 @@ const EditItemModal: React.FC<Props> = () => {
   const toast = useToast();
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(33.33);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState(order?.data?.name);
+  const [email, setEmail] = useState(order?.data?.email);
   const [phone, setPhone] = useState("");
   const [location, setLocation] = useState("");
   const [rating, setRating] = useState("");
@@ -323,8 +332,8 @@ const EditItemModal: React.FC<Props> = () => {
   const [amount, setAmount] = useState("");
   const [imageAsFile, setImageAsFile] = useState<Uint8Array | undefined>();
   const [category_id, setCategoryId] = useState(null);
-  const [selectedOptions, setSelectedOptions] = useState();
-  const [selectedOptions2, setSelectedOptions2] = useState();
+  const [selectedOptions, setSelectedOptions] = useState(order?.data?.category);
+  const [selectedOptions2, setSelectedOptions2] = useState(order?.data?.tags);
 
   const flushInputs = () => {
     setName("");
@@ -445,11 +454,10 @@ const EditItemModal: React.FC<Props> = () => {
         });
     }
   };
-
+console.log('order cat',order.data.category)
   return (
     <>
       <Flex>
-
         <Button
           w="7rem"
           colorScheme="teal"
@@ -491,9 +499,13 @@ const EditItemModal: React.FC<Props> = () => {
                     setSelectedOptions2={setSelectedOptions2}
                     handleImageAsFile={handleImageAsFile}
                     setName={setName}
+                    name={name}
+                    category={category}
+               
                   />
                 ) : step === 2 ? (
                   <Form2
+                    email={email}
                     setEmail={setEmail}
                     setPhone={setPhone}
                     setLocation={setLocation}
@@ -501,6 +513,9 @@ const EditItemModal: React.FC<Props> = () => {
                   />
                 ) : (
                   <Form3
+                    website={website}
+                    about={about}
+                    instagram={instagram}
                     setWebsite={setWebsite}
                     setInstagram={setInstagram}
                     setAbout={setAbout}
