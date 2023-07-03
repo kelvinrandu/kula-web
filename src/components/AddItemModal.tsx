@@ -29,6 +29,7 @@ import {
   FormHelperText,
   InputRightElement,
 } from "@chakra-ui/react";
+import Autocomplete from "react-google-autocomplete";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import { doc, setDoc, collection } from "firebase/firestore";
 import {
@@ -45,6 +46,7 @@ type OptionType = {
   value: string;
   label: string;
 };
+const api_key = process.env.NEXT_PUBLIC_GOOGLE_KEY;
 const options: OptionType[] = [
   { value: "african", label: "African" },
   { value: "asian", label: "Asian" },
@@ -182,12 +184,19 @@ const Form2 = ({ setEmail, setPhone, setLocation, setRating }: any) => {
         <FormLabel htmlFor="email" fontWeight={"normal"}>
           Location
         </FormLabel>
-        <Input
+        <Autocomplete
+          apiKey={api_key}
+          onPlaceSelected={(place) => {
+            setLocation(place);
+            console.log(place);
+          }}
+        />
+        {/* <Input
           id="email"
           onChange={(e) => setLocation(e.target.value)}
           type="text"
           placeholder="Diani Beach Road"
-        />
+        /> */}
         {/* <FormHelperText>We'll never share your email.</FormHelperText> */}
       </FormControl>
       <FormControl mt="2%">

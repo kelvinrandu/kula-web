@@ -446,8 +446,8 @@ const EditItemModal: React.FC<Props> = ({order}) => {
       });
        onClose();
         toast({
-          title: "Restaurant  draft created.",
-          description: "We've created a draft for you ",
+          title: "Restaurant  edited successfully.",
+          description: "We've edited your restaurant for you ",
           status: "success",
           duration: 3000,
           isClosable: true,
@@ -558,7 +558,7 @@ console.log('order cat',order.data.category)
                       Next
                     </Button>
                   </Flex>
-                  {step === 3 ? (
+                  {/* {step === 3 ? ( */}
                     <Button
                       w="7rem"
                       colorScheme="blue"
@@ -567,7 +567,7 @@ console.log('order cat',order.data.category)
                     >
                       Save
                     </Button>
-                  ) : null}
+               
                 </Flex>
               </ButtonGroup>
             </ModalFooter>
